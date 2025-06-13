@@ -1,6 +1,6 @@
 export const config = {
-  packQueryType: process.env.PACK_QUERY_TYPE as 'users' | 'gallery' | 'both',
-  tuneType: process.env.NEXT_PUBLIC_TUNE_TYPE as 'packs' | 'tune',
+  packQueryType: (process.env.PACK_QUERY_TYPE || 'both') as 'users' | 'gallery' | 'both',
+  tuneType: (process.env.NEXT_PUBLIC_TUNE_TYPE || 'packs') as 'packs' | 'tune',
   stripeEnabled: process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === 'true',
   deploymentUrl: process.env.DEPLOYMENT_URL,
 } as const;
@@ -13,19 +13,17 @@ function isVercelPreviewUrl(url: string): boolean {
 
 export function validateConfig() {
   const validPackQueryTypes = ['users', 'gallery', 'both'];
-  const validTuneTypes = ['packs', 'tune'];
+const validTuneTypes = ['packs', 'tune'];
 
-  if (!validPackQueryTypes.includes(config.packQueryType)) {
-    throw new Error(`Invalid PACK_QUERY_TYPE: ${config.packQueryType}`);
-  }
-
-  if (!validTuneTypes.includes(config.tuneType)) {
-    throw new Error(`Invalid NEXT_PUBLIC_TUNE_TYPE: ${config.tuneType}`);
-  }
-
-  if (typeof config.stripeEnabled !== 'boolean') {
-    throw new Error('Invalid NEXT_PUBLIC_STRIPE_IS_ENABLED value');
-  }
+if (!validPackQueryTypes.includes(config.packQueryType)) {
+  throw new Error(`Invalid PACK_QUERY_TYPE: ${config.packQueryType}`);
+}
+if (!validTuneTypes.includes(config.tuneType)) {
+  throw new Error(`Invalid NEXT_PUBLIC_TUNE_TYPE: ${config.tuneType}`);
+}
+if (typeof config.stripeEnabled !== 'boolean') {
+  throw new Error('Invalid NEXT_PUBLIC_STRIPE_IS_ENABLED value');
+}
 
   // Add Deployment URL validation
   if (config.deploymentUrl && isVercelPreviewUrl(config.deploymentUrl)) {
