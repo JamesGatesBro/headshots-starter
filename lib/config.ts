@@ -1,5 +1,5 @@
 export const config = {
-  packQueryType: process.env.PACK_QUERY_TYPE as 'users' | 'gallery' | 'both',
+  packQueryType: (process.env.PACK_QUERY_TYPE || 'both') as 'users' | 'gallery' | 'both',
   tuneType: process.env.NEXT_PUBLIC_TUNE_TYPE as 'packs' | 'tune',
   stripeEnabled: process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === 'true',
   deploymentUrl: process.env.DEPLOYMENT_URL,
